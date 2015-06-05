@@ -28,13 +28,15 @@ def add():
     dessert_name = request.form.get('name_field')
     dessert_price = request.form.get('price_field')
     dessert_cals = request.form.get('cals_field')
+    dessert_origin = request.form.get('origin_field')
+    dessert_image_url = request.form.get('image_url_field')
 
     # Now we are checking the input in create_dessert, we need to handle
     # the Exception that might happen here.
 
     # Wrap the thing we're trying to do in a 'try' block:
     try:
-        dessert = create_dessert(dessert_name, dessert_price, dessert_cals)
+        dessert = create_dessert(dessert_name, dessert_price, dessert_cals, dessert_origin, dessert_image_url)
         return render_template('add.html', dessert=dessert)
     except Exception as e:
         # Oh no, something went wrong!
@@ -50,8 +52,9 @@ def edit(id):
 
     dessert = Dessert.query.get(id)
 
+
     if request.method == 'GET':
-        return render_template('edit.html',dessert=dessert)
+        return render_template('edit.html',dessert=dessert, error="The dessert ID do not exist.")
 
     # Because we 'returned' for a 'GET', if we get to this next bit, we must
     # have received a POST
@@ -63,13 +66,15 @@ def edit(id):
     dessert_name = request.form.get('name_field')
     dessert_price = request.form.get('price_field')
     dessert_cals = request.form.get('cals_field')
+    dessert_origin = request.form.get('origin_field')
+    dessert_image_url = request.form.get('image_url_field')
 
     # Now we are checking the input in create_dessert, we need to handle
     # the Exception that might happen here.
 
     # Wrap the thing we're trying to do in a 'try' block:
     try:
-        dessert = edit_dessert(dessert, dessert_name, dessert_price, dessert_cals)
+        dessert = edit_dessert(dessert, dessert_name, dessert_price, dessert_cals, dessert_origin, dessert_image_url)
         return render_template('edit.html', dessert=dessert)
     except Exception as e:
         # Oh no, something went wrong!
@@ -110,4 +115,4 @@ def search():
     else:
         # Oh no, something went wrong!
         # We can access the error message via e.message:
-        return render_template('details.html', dessert=dessert, error="Nama does not exist")
+        return render_template('details.html', dessert=dessert, error="Name does not exist")

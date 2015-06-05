@@ -57,14 +57,30 @@
 
     </div>
 
+    <div class="form-group">
 
+        <label for="origin_id">Origin</label>
+        <input class="form-control" id="origin_id" name="origin_field" type="text" value="{{ dessert.origin }}" />
+
+    </div>
+
+    <div class="form-group">
+
+
+        <label for="image_url_id">Image URL</label>
+        <input class="form-control" id="image_url_id" name="image_url_field" type="text" value="{{ dessert.image_url }}" />
+
+
+    </div>
 
     <!-- We need a submit button to submit a form! -->
-    <input type="submit" value="Edit" class="btn btn-success"/>
+    <input type="submit" value="Save" class="btn btn-success"/>
 
 
     </form>
+    <p><img src = "{{ dessert.image_url }}" height="400"></P>
 
+    <a href="/" class="btn btn-success">Back</a>
 
     </div>
 

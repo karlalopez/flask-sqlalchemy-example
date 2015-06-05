@@ -12,11 +12,15 @@ class Dessert(db.Model):
     name = db.Column(db.String(100))
     price = db.Column(db.Float)
     calories = db.Column(db.Integer)
+    origin = db.Column(db.String(100))
+    image_url = db.Column(db.String(100))
 
-    def __init__(self, name, price, calories):
+    def __init__(self, name, price, calories, origin,image_url):
         self.name = name
         self.price = price
         self.calories = calories
+        self.origin = origin
+        self.image_url = image_url
 
     def calories_per_dollar(self):
         if self.calories:
@@ -32,7 +36,7 @@ class Menu(db.Model):
         self.name = name
 
 
-def create_dessert(new_name, new_price, new_calories):
+def create_dessert(new_name, new_price, new_calories, new_origin, new_image_url):
     # Create a dessert with the provided input.
 
     # We need every piece of input to be provided.
@@ -59,7 +63,7 @@ def create_dessert(new_name, new_price, new_calories):
 
 
     # This line maps to line 16 above (the Dessert.__init__ method)
-    dessert = Dessert(new_name, new_price, new_calories)
+    dessert = Dessert(new_name, new_price, new_calories, new_origin, new_image_url)
 
     # Actually add this dessert to the database
     db.session.add(dessert)
@@ -74,7 +78,7 @@ def create_dessert(new_name, new_price, new_calories):
         db.session.rollback()
 
 
-def edit_dessert(dessert, new_name, new_price, new_calories):
+def edit_dessert(dessert, new_name, new_price, new_calories, new_origin, new_image_url):
     # Edit a dessert with the provided input.
 
 
@@ -98,6 +102,8 @@ def edit_dessert(dessert, new_name, new_price, new_calories):
     dessert.name = new_name
     dessert.price = new_price
     dessert.calories = new_calories
+    dessert.origin = new_origin
+    dessert.image_url = new_image_url
 
     # Save all pending changes to the database
 
