@@ -6,16 +6,30 @@
 
     <h3>Dessert Details</h3>
 
-    <h4>{{ dessert.name }}</h4>
+    {% if dessert %}
 
-    <p>Price: ${{ dessert.price }}</p>
+      <h4>{{ dessert.name }}</h4>
 
-    <p>Calories: {{ dessert.calories }}</p>
+      <p>Price: ${{ dessert.price }}</p>
 
-    <p>Calories per dollar: {{ dessert.calories_per_dollar() }}</p>
+      <p>Calories: {{ dessert.calories }}</p>
+
+      <p>Calories per dollar: {{ dessert.calories_per_dollar() }}</p>
 
 
-    <a href="/edit/{{ dessert.id }}" class="btn btn-default">Edit {{ dessert.name }}</a> <a href="/delete/{{ dessert.id }}" class="btn btn-danger">Delete {{ dessert.name }}</a>
+      <a href="/edit/{{ dessert.id }}" class="btn btn-default">Edit {{ dessert.name }}</a> <a href="/delete/{{ dessert.id }}" class="btn btn-danger">Delete {{ dessert.name }}</a>
+
+    {% endif %}
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+
+    An error occurred trying to find your dessert:
+
+    {{ error }}
+
+    </div>
+    {% endif %}
 
 
     </div>
