@@ -45,6 +45,19 @@ def create_dessert(new_name, new_price, new_calories):
     if new_name == '' or new_price == '' or new_calories == '':
         raise Exception("Need name, price and calories!")
 
+    # Check for price
+    if int(new_price) > 50:
+        raise Exception("A bit too pricey!")
+
+    # Check for calories
+    if int(new_calories) > 1000:
+        raise Exception("No one should eat that")
+
+    #Check duplicates
+    if Dessert.query.filter_by(name=new_name).first():
+        raise Exception("Already in the database")
+
+
     # This line maps to line 16 above (the Dessert.__init__ method)
     dessert = Dessert(new_name, new_price, new_calories)
 
@@ -59,6 +72,42 @@ def create_dessert(new_name, new_price, new_calories):
     except:
         # If something went wrong, explicitly roll back the database
         db.session.rollback()
+
+
+def edit_dessert(dessert, new_name, new_price, new_calories):
+    # Edit a dessert with the provided input.
+
+
+    # Can you think of other ways to write this following check?
+    if new_name is None or new_price is None or new_calories is None:
+        raise Exception("Need name, price and calories!")
+
+    # They can also be empty strings if submitted from a form
+    if new_name == '' or new_price == '' or new_calories == '':
+        raise Exception("Need name, price and calories!")
+
+    # Check for price
+    if int(new_price) > 50:
+        raise Exception("A bit too pricey!")
+
+    # Check for calories
+    if int(new_calories) > 1000:
+        raise Exception("No one should eat that")
+
+    # This line maps to line 16 above (the Dessert.__init__ method)
+    dessert.name = new_name
+    dessert.price = new_price
+    dessert.calories = new_calories
+
+    # Save all pending changes to the database
+
+    try:
+        db.session.commit()
+        return dessert
+    except:
+        # If something went wrong, explicitly roll back the database
+        db.session.rollback()
+
 
 
 def delete_dessert(id):
