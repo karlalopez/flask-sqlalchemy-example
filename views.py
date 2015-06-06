@@ -54,7 +54,10 @@ def edit(id):
 
 
     if request.method == 'GET':
-        return render_template('edit.html',dessert=dessert, error="The dessert ID do not exist.")
+        if dessert is None:
+            return render_template('edit.html',dessert=dessert, error="The dessert ID do not exist.")
+        else:
+            return render_template('edit.html',dessert=dessert)
 
     # Because we 'returned' for a 'GET', if we get to this next bit, we must
     # have received a POST
@@ -116,3 +119,13 @@ def search():
         # Oh no, something went wrong!
         # We can access the error message via e.message:
         return render_template('details.html', dessert=dessert, error="Name does not exist")
+
+@app.route('/order/<field>')
+def order(field):
+
+    if field == "name" or field == "price" or field == "calories":
+        desserts = Dessert.query.order_by(field)
+        return render_template('index.html', desserts=desserts)
+    else:
+        desserts = Dessert.query.all()
+        return render_template('index.html', desserts=desserts)
