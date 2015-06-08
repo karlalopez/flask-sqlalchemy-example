@@ -3,8 +3,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# Set up the SQLAlchemy Database to be a local file 'desserts.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///desserts.db'
+# Set up the SQLAlchemy Database to be a local file 'users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db = SQLAlchemy(app)
 
 
