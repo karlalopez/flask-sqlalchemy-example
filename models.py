@@ -55,8 +55,6 @@ class User(db.Model):
 
 
 
-
-<<<<<<< HEAD
 def create_dessert(new_name, new_price, new_calories, new_origin, new_image_url):
     # Create a dessert with the provided input.
 
