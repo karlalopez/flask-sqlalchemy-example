@@ -38,20 +38,20 @@ class Menu(db.Model):
         self.name = name
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
-    password = db.Column(db.String(100))
-    email = db.Column(db.String(250))
-    name = db.Column(db.String(100))
-    avatar = db.Column(db.String(250))
-
-    def __init__(self, username, password, email, name, avatar):
-        self.username = username
-        self.password = password
-        self.email = email
-        self.name = name
-        self.avatar = avatar
+# class User(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     username = db.Column(db.String(100))
+#     password = db.Column(db.String(100))
+#     email = db.Column(db.String(250))
+#     name = db.Column(db.String(100))
+#     avatar = db.Column(db.String(250))
+#
+#     def __init__(self, username, password, email, name, avatar):
+#         self.username = username
+#         self.password = password
+#         self.email = email
+#         self.name = name
+#         self.avatar = avatar
 
 
 

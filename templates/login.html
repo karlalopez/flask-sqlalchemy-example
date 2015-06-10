@@ -1,0 +1,45 @@
+{% include 'header.html' %}
+
+<body>
+
+    <div class="container">
+
+    <h3>Login</h3>
+
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+
+    A problem ocurred with you sign up:
+
+    {{ error }}
+
+    </div>
+    {% endif %}
+
+
+    <!-- Bootstrap: http://getbootstrap.com/css/#forms -->
+
+    <!-- The form action and method correspond to a Flask route -->
+
+    <form action="/submit-login" method="POST" class="form-inline">
+
+    <div class="form">
+
+        <label for="username">Username</label>
+        <input  class="form-control" id="username" name="username_field" type="text" />
+
+    </div>
+
+    <div class="form">
+        <label for="password">Password</label>
+        <input class="form-control" id="password" name="password_field" type="text" />
+    </div>
+    <div class="form">
+        <input type="submit" value="Login" class="btn btn-success"/>
+    </div>
+    <!-- We need a submit button to submit a form! -->
+
+
+    </form>
+
+</body>

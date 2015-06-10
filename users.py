@@ -8,14 +8,14 @@ class User(db.Model):
     username = db.Column(db.String(100))
     password = db.Column(db.String(100))
     email = db.Column(db.String(250))
-    realname = db.Column(db.String(100))
+    name = db.Column(db.String(100))
     avatar = db.Column(db.String(250))
 
-    def __init__(self, username, password, email, realname, avatar):
+    def __init__(self, username, password, email, name, avatar):
         self.username = username
         self.password = password
         self.email = email
-        self.realname = realname
+        self.name = name
         self.avatar = avatar
 
 
@@ -29,6 +29,9 @@ def get_user(id):
 
 def get_user_by_username(username):
     return User.query.filter_by(username=username).first()
+
+def get_user_by_email(email):
+    return User.query.filter_by(email=email).first()
 
 
 def create_user(username, email, password, realname, avatar):

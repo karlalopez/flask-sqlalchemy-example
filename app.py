@@ -2,6 +2,8 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.secret_key = 'thisisasecret' #To "log in" a user, first make sure you have imported the session - you'll also need to set up an app secret key.
+
 
 # Set up the SQLAlchemy Database to be a local file 'users.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
