@@ -1,69 +1,67 @@
 {% include 'header.html' %}
 
-<body>
 
     <div class="container">
 
-    <h3>Sign up</h3>
+        <h3>Sign up</h3>
 
-    {% if error %}
-    <div class="alert alert-danger" role="alert">
+        {% if error %}
+            <div class="alert alert-danger" role="alert">
 
-    A problem ocurred with you sign up:
+                A problem ocurred with you sign up:
 
-    {{ error }}
+                {{ error }}
 
-    </div>
-    {% endif %}
-
-
-    <!-- Bootstrap: http://getbootstrap.com/css/#forms -->
-
-    <!-- The form action and method correspond to a Flask route -->
-
-    <form action="/submit-signup" method="POST" class="form-inline">
-
-    <div class="form-group">
-
-        <label for="username">Username</label>
-        <input  class="form-control" id="username" name="username_field" type="text" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="email">Email</label>
-        <input class="form-control" id="email" name="email_field" type="text" size="4" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="passworf">Password</label>
-        <input class="form-control" id="password" name="password_field" type="text" size="4" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="name">Real name</label>
-        <input class="form-control" id="name" name="name_field" type="text" />
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="avatar">Avatar</label>
-        <input class="form-control" id="avatar" name="avatar_field" type="text" />
-
-    </div>
+            </div>
+        {% endif %}
 
 
+        <!-- Bootstrap: http://getbootstrap.com/css/#forms -->
 
-    <!-- We need a submit button to submit a form! -->
-    <input type="submit" value="Submit" class="btn btn-success"/>
+        <!-- The form action and method correspond to a Flask route -->
 
+        <form action="/submit-signup" method="POST" class="form-inline">
 
-    </form>
+            <div class="form-group">
+
+                <label for="username">Username</label>
+                <input  class="form-control" id="username" name="username_field" type="text" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="email">Email</label>
+                <input class="form-control" id="email" name="email_field" type="text" size="4" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="passworf">Password</label>
+                <input class="form-control" id="password" name="password_field" type="text" size="4" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="name">Real name</label>
+                <input class="form-control" id="name" name="name_field" type="text" />
+
+            </div>
+
+            <div class="form-group">
+
+                <label for="avatar">Avatar</label>
+                <input class="form-control" id="avatar" name="avatar_field" type="text" />
+
+            </div>
+
+            <!-- We need a submit button to submit a form! -->
+            <input type="submit" value="Submit" class="btn btn-success"/>
+
+        </form>
+        Or <a href="login">Login</a>.
+  </div>
 
 </body>

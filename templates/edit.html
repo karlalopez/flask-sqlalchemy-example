@@ -1,36 +1,35 @@
 {% include 'header.html' %}
 
-<body>
 
     <div class="container">
 
 
     <h3>Edit Dessert</h3>
 
-    {% if dessert %}
+    {% if success %}
 
-    <!-- http://getbootstrap.com/components/#alerts -->
+        <!-- http://getbootstrap.com/components/#alerts -->
 
-    <div class="alert alert-success" role="alert">
+        <div class="alert alert-success" role="alert">
 
-        <p><strong>{{dessert.name}}</strong> successfully edited!</p>
-        <p><a href="/">Back to Dessert List</a></p>
+            <p><strong>{{dessert.name}}</strong> successfully edited!</p>
+            <p><a href="/">Back to Dessert List</a></p>
 
-    </div>
+        </div>
 
     {% endif %}
 
     {% if error %}
-    <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger" role="alert">
 
-    An error occurred trying to edit your dessert:
+        An error occurred trying to edit your dessert:
 
-    {{ error }}
+        {{ error }}
 
-    </div>
+        </div>
     {% endif %}
 
-    {% if error != "The dessert ID do not exist." %}
+    {% if dessert %}
       <!-- Bootstrap: http://getbootstrap.com/css/#forms -->
 
       <!-- The form action and method correspond to a Flask route -->
@@ -79,7 +78,7 @@
 
       </form>
       <p><img src = "{{ dessert.image_url }}" height="400"></p>
-    {% endif %}  
+    {% endif %}
 
     <a href="/" class="btn btn-success">Back</a>
 

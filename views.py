@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session
 
-from models import Dessert, create_dessert, delete_dessert, edit_dessert
+from models import *
 from users import *
 from app import app
 
@@ -10,8 +10,12 @@ def index():
     if session.get('username'): # this will be executed if 'username' is present in the session
         print "Logged-in: Found session"
         username = session['username']
-        desserts = Dessert.query.all()
-        return render_template('index.html', desserts=desserts)
+
+        user_id = get_user_id(username)
+
+        desserts = get_desserts(user_id)
+
+        return render_template('index.html', desserts=desserts, username=username)
     else:
         print "Logged-in: No session"
         return render_template('login.html', error="Please login.")
@@ -90,7 +94,7 @@ def add():
         username = session['username']
 
         if request.method == 'GET':
-            return render_template('add.html',error="e.message")
+            return render_template('add.html')
 
         # Because we 'returned' for a 'GET', if we get to this next bit, we must
         # have received a POST
@@ -105,17 +109,19 @@ def add():
         dessert_origin = request.form.get('origin_field')
         dessert_image_url = request.form.get('image_url_field')
 
+        user_id = get_user_id(username)
+
         # Now we are checking the input in create_dessert, we need to handle
         # the Exception that might happen here.
 
         # Wrap the thing we're trying to do in a 'try' block:
         try:
-            dessert = create_dessert(dessert_name, dessert_price, dessert_cals, dessert_origin, dessert_image_url)
-            return render_template('add.html', dessert=dessert)
+            dessert = create_dessert(dessert_name, dessert_price, dessert_cals, dessert_origin, dessert_image_url, user_id)
+            return render_template('add.html', dessert=dessert, username=username)
         except Exception as e:
             # Oh no, something went wrong!
             # We can access the error message via e.message:
-            return render_template('add.html', error=e.message)
+            return render_template('add.html', error=e.message, username=username)
 
     else:
         print "Logged-in: No session"
@@ -134,12 +140,16 @@ def edit(id):
 
         dessert = Dessert.query.get(id)
 
+        user_id = get_user_id(username)
 
         if request.method == 'GET':
             if dessert is None:
-                return render_template('edit.html',dessert=dessert, error="The dessert ID do not exist.")
+                return render_template('edit.html',dessert=dessert, error="The dessert ID do not exist.", username=username)
+            if dessert.user_id != user_id:
+                dessert = None
+                return render_template('edit.html',dessert=dessert, error="You can't edit this dessert.", username=username)
             else:
-                return render_template('edit.html',dessert=dessert)
+                return render_template('edit.html',dessert=dessert, error=None, username=username)
 
         # Because we 'returned' for a 'GET', if we get to this next bit, we must
         # have received a POST
@@ -160,11 +170,11 @@ def edit(id):
         # Wrap the thing we're trying to do in a 'try' block:
         try:
             dessert = edit_dessert(dessert, dessert_name, dessert_price, dessert_cals, dessert_origin, dessert_image_url)
-            return render_template('edit.html', dessert=dessert)
+            return render_template('edit.html', dessert=dessert, success=True, username=username)
         except Exception as e:
             # Oh no, something went wrong!
             # We can access the error message via e.message:
-            return render_template('edit.html', dessert=dessert, error=e.message)
+            return render_template('edit.html', dessert=dessert, error=e.message, username=username)
     else:
         print "Logged-in: No session"
         return render_template('login.html', error="Please login.")
@@ -177,11 +187,19 @@ def view_dessert(id):
         print "Logged-in: Found session"
         username = session['username']
 
-    # We could define this inside its own function but it's simple enough
-    # that we don't really need to.
         dessert = Dessert.query.get(id)
 
-        return render_template('details.html', dessert=dessert)
+        user_id = get_user_id(username)
+
+
+        if dessert is None:
+            return render_template('details.html',dessert=dessert, error="The dessert ID do not exist.", username=username)
+        if dessert.user_id != user_id:
+            dessert = None
+            return render_template('details.html',dessert=dessert, error="You can't view this dessert.", username=username)
+        else:
+            return render_template('details.html',dessert=dessert, error=None, username=username)
+
     else:
         print "Logged-in: No session"
         return render_template('login.html', error="Please login.")
@@ -193,13 +211,20 @@ def delete(id):
         print "Logged-in: Found session"
         username = session['username']
 
-        message = delete_dessert(id)
+        user = get_user_by_username(username)
+        user_id = user.id
 
-        return index()  # Look at the URL bar when you do this. What happens?
+        user_id = get_user_id(username)
 
+        desserts = get_desserts(user_id)
+
+        error = delete_dessert(id, user_id)
+
+
+        return render_template('index.html', desserts=desserts, error="You can't edit this dessert.", username=username)
     else:
         print "Logged-in: No session"
-        return render_template('login.html', error="Please login.")
+        return render_template('login.html', error="Please login.", username=username)
 
 
 @app.route('/search', methods=['POST'])
@@ -216,11 +241,11 @@ def search():
         print
 
         if dessert:
-            return render_template('details.html', dessert=dessert)
+            return render_template('details.html', dessert=dessert, username=username)
         else:
             # Oh no, something went wrong!
             # We can access the error message via e.message:
-            return render_template('details.html', dessert=dessert, error="Name does not exist")
+            return render_template('details.html', dessert=dessert, error="Name does not exist", username=username)
     else:
         print "Logged-in: No session"
         return render_template('login.html', error="Please login.")

@@ -1,33 +1,18 @@
 {% include 'header.html' %}
 
-<body>
 
     <div class="container">
 
 
       <h3>Dessert Menu</h3>
 
-      {% if message %}
+      {% if error %}
       <div class="alert alert-info" role="alert">
 
-      {{ message }}
+      {{ error }}
 
       </div>
       {% endif %}
-
-
-      <form action="/search" method="POST" class="form-inline">
-
-      <div class="form-group">
-
-          <input  class="form-control" id="term" name="term" type="text" />
-
-      </div>
-
-      <input type="submit" value="Search" class="btn btn-defult"/>
-
-
-      </form>
 
       <table class="table table-striped">
         <tr>
@@ -47,7 +32,6 @@
       </table>
 
       <p><a href="/add" class="btn btn-success">Add Item</a></p>
-      <p><a href="/logout" class="btn btn-danger">Logout</a></p>
 
 
 

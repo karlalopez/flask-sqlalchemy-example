@@ -1,6 +1,6 @@
 <head>
 
-    <title>Desserts</title>
+    <title>Desserts for you!</title>
 
     <!-- BEGIN BOOTSTRAP -->
 
@@ -13,6 +13,55 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
+    <!-- Custom styles for this template -->
+    <link href="/static/starter-template.css" rel="stylesheet">
+
+
+
+
     <!-- END BOOTSTRAP -->
 
 </head>
+
+
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">My dessert shop</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          {% if username %}
+            <li><a href="login">Logout</a></li>
+          {% else %}
+            <li><a href="logout">Login</a></li>
+          {% endif %}
+        </ul>
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+
+            <form action="/search" method="POST" class="form-inline search">
+
+                <input  class="form-control" id="term" name="term" type="text" />
+
+            </div>
+
+            <input type="submit" value="Search" class="btn btn-defult"/>
+
+
+            </form>
+          </div>
+      </div><!--/.nav-collapse -->
+
+    </div>
+
+  </nav>

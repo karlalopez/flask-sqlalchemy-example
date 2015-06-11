@@ -1,4 +1,5 @@
 from app import db
+from users import get_user_by_username
 
 
 class Dessert(db.Model):
@@ -14,16 +15,16 @@ class Dessert(db.Model):
     calories = db.Column(db.Integer)
     origin = db.Column(db.String(100))
     image_url = db.Column(db.String(100))
-
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship("User", backref="desserts")
 
-    def __init__(self, name, price, calories, origin,image_url):
+    def __init__(self, name, price, calories, origin,image_url,user_id):
         self.name = name
         self.price = price
         self.calories = calories
         self.origin = origin
         self.image_url = image_url
+        self.user_id = user_id
 
     def calories_per_dollar(self):
         if self.calories:
@@ -53,9 +54,16 @@ class Menu(db.Model):
 #         self.name = name
 #         self.avatar = avatar
 
+def get_desserts(user_id):
+    desserts = Dessert.query.filter_by(user_id=user_id).all()
+    return desserts
 
+def get_user_id(username):
+    user = get_user_by_username(username)
+    user_id = user.id
+    return user_id
 
-def create_dessert(new_name, new_price, new_calories, new_origin, new_image_url):
+def create_dessert(new_name, new_price, new_calories, new_origin, new_image_url,new_user_id):
     # Create a dessert with the provided input.
 
     # We need every piece of input to be provided.
@@ -82,7 +90,8 @@ def create_dessert(new_name, new_price, new_calories, new_origin, new_image_url)
 
 
     # This line maps to line 16 above (the Dessert.__init__ method)
-    dessert = Dessert(new_name, new_price, new_calories, new_origin, new_image_url)
+
+    dessert = Dessert(new_name, new_price, new_calories, new_origin, new_image_url,new_user_id)
 
     # Actually add this dessert to the database
     db.session.add(dessert)
@@ -133,27 +142,32 @@ def edit_dessert(dessert, new_name, new_price, new_calories, new_origin, new_ima
         # If something went wrong, explicitly roll back the database
         db.session.rollback()
 
-
-
-def delete_dessert(id):
+def delete_dessert(id,user_id):
 
     dessert = Dessert.query.get(id)
+    print dessert.user_id
+    print user_id
+    if dessert.user_id == user_id:
 
-    if dessert:
-        # We store the name before deleting it, because we can't access it
-        # afterwards.
-        dessert_name = dessert.name
-        db.session.delete(dessert)
+        if dessert:
+            # We store the name before deleting it, because we can't access it
+            # afterwards.
+            dessert_name = dessert.name
+            db.session.delete(dessert)
 
-        try:
-            db.session.commit()
-            return "Dessert {} deleted".format(dessert_name)
-        except:
-            # If something went wrong, explicitly roll back the database
-            db.session.rollback()
-            return "Something went wrong"
+            try:
+                db.session.commit()
+                return "Dessert {} deleted".format(dessert_name)
+            except:
+                # If something went wrong, explicitly roll back the database
+                db.session.rollback()
+                return "Something went wrong"
+        else:
+            return "Dessert not found"
     else:
-        return "Dessert not found"
+        return "You can't delete this dessert"
+
+
 
 
 if __name__ == "__main__":
