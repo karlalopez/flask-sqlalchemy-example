@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, session
+from flask import render_template, request, redirect, session, jsonify
 
 from models import *
 from users import *
@@ -273,3 +273,23 @@ def logout_user():
         print "Logout: Deleting settion"
         del session['username']
     return redirect("/")
+
+@app.route('/api')
+def api():
+    desserts = get_all_desserts()
+    api_dict = {}
+    for x in desserts:
+        dessert = dict([('name', x.name), ('price', x.price), ('calories', x.calories), ('origin', x.origin),('image_url', x.image_url), ('user_id', x.user_id)])
+        index = x.id
+        api_dict[index] = dessert
+    return jsonify(api_dict)
+
+@app.route('/api/<user_id>')
+def api_id(user_id):
+    desserts = get_desserts(user_id)
+    api_dict = {}
+    for x in desserts:
+        dessert = dict([('name', x.name), ('price', x.price), ('calories', x.calories), ('origin', x.origin),('image_url', x.image_url), ('user_id', x.user_id)])
+        index = x.id
+        api_dict[index] = dessert
+    return jsonify(api_dict)

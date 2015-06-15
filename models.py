@@ -58,6 +58,11 @@ def get_desserts(user_id):
     desserts = Dessert.query.filter_by(user_id=user_id).all()
     return desserts
 
+def get_all_desserts():
+    desserts = Dessert.query.all()
+    return desserts
+
+
 def get_user_id(username):
     user = get_user_by_username(username)
     user_id = user.id
